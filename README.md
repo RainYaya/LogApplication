@@ -1,1 +1,3 @@
 LogApplication
+
+clone project
