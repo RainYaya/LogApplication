@@ -10,6 +10,14 @@ public class LogInfo {
     private String exceptionType;
     private String exceptionContent;
 
+    public void setExceptionType(String exceptionType) {
+        this.exceptionType = exceptionType;
+    }
+
+    public void setExceptionContent(String exceptionContent) {
+        this.exceptionContent = exceptionContent;
+    }
+
     private LogInfo(LoginfosBuilder builder){
         this.logId=builder.logId;
         this.ipAddr=builder.ipAddr;
@@ -118,6 +126,10 @@ public class LogInfo {
 
     public String getExceptionContent() {
         return exceptionContent;
+    }
+    
+    public String toString() {
+    	return this.logId+","+this.ipAddr+","+this.exceptionContent+","+this.recordTime+","+this.exceptionType;
     }
 
     //#endregion

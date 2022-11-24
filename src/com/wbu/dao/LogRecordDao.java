@@ -1,7 +1,7 @@
 package com.wbu.dao;
 
 
-import java.security.interfaces.RSAKey;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,15 +20,16 @@ public class LogRecordDao {
     DBUtil dbUtil=new DBUtil();
     Connection conn=null;
 
-    public LogInfoVO queryLogInfoResultSet(Map<String,String> keyValue){
+
+    public LogInfoVO queryLogInfoResultVO(Map<String,String> keyValue){
         LogInfoVO logInfoVO=null;
         List<LogInfo> resultLogInfo=null;
         StringBuffer sb=new StringBuffer("select log_id,")
             .append("log_content,")
             .append("record_time,")
-            .append("log_type")
+            .append("log_type,")
             .append("ip_addr")
-            .append(" where 1=1 ");                
+            .append(" from record_log where 1=1 ");                
 
         if(keyValue.size()>-1){
             Iterator<Entry<String,String>> conditionSetIterator =keyValue.entrySet().iterator();
@@ -43,7 +44,7 @@ public class LogRecordDao {
         }
         conn = dbUtil.getConnection();
         try {
-            PreparedStatement preparedStatement=conn.prepareStatement(sb.toString());
+            PreparedStatement preparedStatement=conn.prepareStatement(sb.toString(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
             ResultSet result=preparedStatement.executeQuery();
 
             LogInfo loginfoTemp=null;
@@ -64,6 +65,36 @@ public class LogRecordDao {
             }
             logInfoVO.setLogInfoList(resultLogInfo);
             return logInfoVO;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ResultSet queryLogInfoResultSet(Map<String,String> keyValue){
+        StringBuffer sb=new StringBuffer("select log_id,")
+            .append("log_content,")
+            .append("record_time,")
+            .append("log_type,")
+            .append("ip_addr ")
+            .append(" from record_log where 1=1 ");                
+
+        if(keyValue.size()>-1){
+            Iterator<Entry<String,String>> conditionSetIterator =keyValue.entrySet().iterator();
+            while (conditionSetIterator.hasNext()) {      
+                Entry<String,String> entryObj=conditionSetIterator.next();
+                sb.append("and");
+                sb.append(entryObj.getKey());
+                sb.append(" = '");
+                sb.append(entryObj.getValue());
+                sb.append("'");
+            }
+        }
+        conn = dbUtil.getConnection();
+        try {
+            PreparedStatement preparedStatement=conn.prepareStatement(sb.toString());
+            ResultSet result=preparedStatement.executeQuery();
+            return result;
         } catch (SQLException e) {
             e.printStackTrace();
         }

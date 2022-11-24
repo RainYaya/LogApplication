@@ -34,7 +34,7 @@ public class PropertiesSinletionVialnnerClass {
         properties =new Properties();
         InputStream ins=null;
         try {
-            ins=new FileInputStream("xxx");
+            ins=new FileInputStream("D:\\作业\\JavaProject\\LogApplication\\LogApplication\\config\\jdbc.properties");
             properties.load(ins);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

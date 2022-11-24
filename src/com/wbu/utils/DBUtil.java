@@ -11,7 +11,7 @@ public class DBUtil {
     public Connection getConnection(){
         try {
             PropertiesSinletionVialnnerClass instance=PropertiesSinletionVialnnerClass.getInstance();        
-            Class.forName(instance.getValue("dirver"));
+            Class.forName(instance.getValue("driver"));
             conn= DriverManager.getConnection(instance.getValue("url"),instance.getValue("username"),instance.getValue("password"));
             return conn;
         } catch (SQLException e) {

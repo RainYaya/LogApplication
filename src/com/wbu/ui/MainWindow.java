@@ -15,14 +15,25 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import com.wbu.entity.LogInfoVO;
+import com.wbu.entity.LogTableModel;
+import com.wbu.server.LogServer;
+import com.wbu.service.LogService;
+
 import javax.swing.JRadioButton;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+import java.awt.event.ActionEvent;
 
 public class MainWindow extends JPanel {
-	private JTextField textField;
+	private JTextField conditionTextField;
 	private JTable table;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	JScrollPane scrollPane = new JScrollPane();
 
 	/**
 	 * Create the panel.
@@ -78,16 +89,33 @@ public class MainWindow extends JPanel {
 		lblNewLabel.setBounds(10, 21, 54, 15);
 		panel_1.add(lblNewLabel);
 		
-		textField = new JTextField();
-		textField.setBounds(85, 18, 66, 21);
-		panel_1.add(textField);
-		textField.setColumns(10);
+		conditionTextField = new JTextField();
+		conditionTextField.setBounds(85, 18, 66, 21);
+		panel_1.add(conditionTextField);
+		conditionTextField.setColumns(10);
 		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"ip地址", "录入时间", "异常内容", "异常类型"}));
 		comboBox.setBounds(170, 17, 34, 23);
 		panel_1.add(comboBox);
 		
 		JButton btnNewButton_5 = new JButton("查询");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Map<String,String> conditionMap=new HashMap<String,String>();
+				String conditionText=conditionTextField.getText().trim();
+				if(null != conditionText && !"".equals(conditionText)){
+					conditionMap.put(String.valueOf(comboBox.getSelectedItem()), conditionText);
+				}
+				
+				LogService logService=new LogService();
+				LogTableModel logTableModel=new LogTableModel(logService.businessProcess(
+					new LogInfoVO(conditionMap)));
+				
+				table = new JTable(logTableModel);
+				scrollPane.setViewportView(table);	
+			}
+		});
 		btnNewButton_5.setBounds(219, 17, 93, 23);
 		panel_1.add(btnNewButton_5);
 		
@@ -104,7 +132,7 @@ public class MainWindow extends JPanel {
 		panel_1.add(panel_2);
 		panel_2.setLayout(null);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		
 		scrollPane.setBounds(17, 5, 460, 242);
 		panel_2.add(scrollPane);
 		
