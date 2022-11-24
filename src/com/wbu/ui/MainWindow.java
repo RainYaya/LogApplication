@@ -10,19 +10,35 @@ import javax.swing.JToolBar;
 import javax.swing.JTabbedPane;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import com.wbu.entity.GeneralEnumObject;
+import com.wbu.entity.LogInfo;
+import com.wbu.entity.LogInfoVO;
+import com.wbu.entity.LogTableModel;
+import com.wbu.server.LogServer;
+import com.wbu.service.LogService;
+
 import javax.swing.JRadioButton;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+import java.awt.event.ActionEvent;
+import javax.swing.ButtonGroup;
 
 public class MainWindow extends JPanel {
-	private JTextField textField;
+	private JTextField conditionTextField;
 	private JTable table;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField ipAddrText;
+	private JTextField dateText;
+	JScrollPane scrollPane = new JScrollPane();
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Create the panel.
@@ -71,6 +87,7 @@ public class MainWindow extends JPanel {
 		panel.add(tabbedPane, "name_9348581800000");
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setToolTipText("");
 		tabbedPane.addTab("New tab", null, panel_1, null);
 		panel_1.setLayout(null);
 		
@@ -78,16 +95,35 @@ public class MainWindow extends JPanel {
 		lblNewLabel.setBounds(10, 21, 54, 15);
 		panel_1.add(lblNewLabel);
 		
-		textField = new JTextField();
-		textField.setBounds(85, 18, 66, 21);
-		panel_1.add(textField);
-		textField.setColumns(10);
+		conditionTextField = new JTextField();
+		conditionTextField.setBounds(85, 18, 66, 21);
+		panel_1.add(conditionTextField);
+		conditionTextField.setColumns(10);
 		
 		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"ip地址", "录入时间", "异常内容", "异常类型"}));
 		comboBox.setBounds(170, 17, 34, 23);
 		panel_1.add(comboBox);
 		
 		JButton btnNewButton_5 = new JButton("查询");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Map<String,String> conditionMap=new HashMap<String,String>();
+				String conditionText=conditionTextField.getText().trim();
+				if(null != conditionText && !"".equals(conditionText)){
+					conditionMap.put(GeneralEnumObject.GetValue(
+							String.valueOf(comboBox.getSelectedItem())),
+							conditionText);
+				}
+				
+				LogService logService=new LogService();
+				LogTableModel logTableModel=new LogTableModel(logService.businessProcess(
+					new LogInfoVO(conditionMap)));
+				
+				table = new JTable(logTableModel);
+				scrollPane.setViewportView(table);	
+			}
+		});
 		btnNewButton_5.setBounds(219, 17, 93, 23);
 		panel_1.add(btnNewButton_5);
 		
@@ -104,7 +140,7 @@ public class MainWindow extends JPanel {
 		panel_1.add(panel_2);
 		panel_2.setLayout(null);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		
 		scrollPane.setBounds(17, 5, 460, 242);
 		panel_2.add(scrollPane);
 		
@@ -128,50 +164,84 @@ public class MainWindow extends JPanel {
 		panel_3.add(panel_4);
 		panel_4.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("New label");
+		JLabel lblNewLabel_1 = new JLabel("ip地址");
 		lblNewLabel_1.setBounds(60, 31, 54, 15);
 		panel_4.add(lblNewLabel_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(143, 28, 66, 21);
-		panel_4.add(textField_1);
-		textField_1.setColumns(10);
+		ipAddrText = new JTextField();
+		ipAddrText.setBounds(143, 28, 66, 21);
+		panel_4.add(ipAddrText);
+		ipAddrText.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("New label");
+		JLabel lblNewLabel_2 = new JLabel("录入时间");
 		lblNewLabel_2.setBounds(60, 84, 54, 15);
 		panel_4.add(lblNewLabel_2);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(143, 81, 66, 21);
-		panel_4.add(textField_2);
-		textField_2.setColumns(10);
+		dateText = new JTextField();
+		dateText.setBounds(143, 81, 66, 21);
+		panel_4.add(dateText);
+		dateText.setColumns(10);
 		
-		JLabel lblNewLabel_3 = new JLabel("New label");
+		JLabel lblNewLabel_3 = new JLabel("录入类型");
 		lblNewLabel_3.setBounds(60, 151, 54, 15);
 		panel_4.add(lblNewLabel_3);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"空指针", "数据越界"}));
-		comboBox_1.setBounds(143, 147, 34, 23);
-		panel_4.add(comboBox_1);
+		JComboBox recordTypeCombox = new JComboBox();
+		recordTypeCombox.setModel(new DefaultComboBoxModel(new String[] {"空指针异常", "数据越界异常", "类型不匹配异常", "连接被拒绝异常"}));
+		recordTypeCombox.setBounds(143, 147, 34, 23);
+		panel_4.add(recordTypeCombox);
 		
-		JLabel lblNewLabel_4 = new JLabel("New label");
+		JLabel lblNewLabel_4 = new JLabel("异常类型");
 		lblNewLabel_4.setBounds(60, 212, 54, 15);
 		panel_4.add(lblNewLabel_4);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("New radio button");
-		rdbtnNewRadioButton.setBounds(153, 208, 121, 23);
-		panel_4.add(rdbtnNewRadioButton);
+		JRadioButton exceptionCheckedRButton = new JRadioButton("异常");
+		buttonGroup.add(exceptionCheckedRButton);
+		exceptionCheckedRButton.setBounds(153, 208, 121, 23);
+		panel_4.add(exceptionCheckedRButton);
 		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("New radio button");
-		rdbtnNewRadioButton_1.setBounds(320, 208, 121, 23);
-		panel_4.add(rdbtnNewRadioButton_1);
+		JRadioButton infoCheckedRButton = new JRadioButton("信息");
+		buttonGroup.add(infoCheckedRButton);
+		infoCheckedRButton.setBounds(320, 208, 121, 23);
+		panel_4.add(infoCheckedRButton);
 		
-		JButton btnNewButton_8 = new JButton("New button");
+		JButton btnNewButton_8 = new JButton("提交");
+		btnNewButton_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String ipAddr=ipAddrText.getText().trim();
+				String dateTimeText=dateText.getText().trim();
+				String exceptionContent=GeneralEnumObject.GetValue(
+					String.valueOf(recordTypeCombox.getSelectedItem()));
+					
+				String exceptionType=exceptionCheckedRButton.isSelected()?"异常":"信息";
+
+				LogInfo lgInfo=new LogInfo.LoginfosBuilder(-1, ipAddr, dateTimeText)
+									.setExceptionType(exceptionType)
+									.setExceptionContent(exceptionContent)
+									.build();
+								
+				LogService logService=new LogService();
+				LogInfoVO resultVO= logService.businessProcess(new LogInfoVO(lgInfo));
+				
+				if(null!=resultVO.getLogInfo()){
+					JOptionPane.showMessageDialog(
+						null,
+						"操作提示",
+						"信息录入成功",
+						JOptionPane.INFORMATION_MESSAGE);
+				}else{
+					JOptionPane.showMessageDialog(
+						null,
+						"操作提示",
+						"信息录入失败",
+						JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
 		btnNewButton_8.setBounds(60, 282, 93, 23);
 		panel_4.add(btnNewButton_8);
 		
-		JButton btnNewButton_9 = new JButton("New button");
+		JButton btnNewButton_9 = new JButton("重置");
 		btnNewButton_9.setBounds(223, 282, 93, 23);
 		panel_4.add(btnNewButton_9);
 
