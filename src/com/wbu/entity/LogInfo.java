@@ -1,8 +1,8 @@
 package com.wbu.entity;
 
-import java.io.PushbackInputStream;
 
-public class LogInfos {
+
+public class LogInfo {
 
     private int logId;
     private String ipAddr;
@@ -10,7 +10,7 @@ public class LogInfos {
     private String exceptionType;
     private String exceptionContent;
 
-    private LogInfos(LoginfosBuilder builder){
+    private LogInfo(LoginfosBuilder builder){
         this.logId=builder.logId;
         this.ipAddr=builder.ipAddr;
         this.recordTime=builder.recordTime;
@@ -18,7 +18,7 @@ public class LogInfos {
         this.exceptionContent=builder.exceptionContent;
     }
     
-    public LogInfos(int logId, String ipAddr, String recordTime, String exceptionType, String exceptionContent) {
+    public LogInfo(int logId, String ipAddr, String recordTime, String exceptionType, String exceptionContent) {
         super();
         this.logId = logId;
         this.ipAddr = ipAddr;
@@ -84,14 +84,14 @@ public class LogInfos {
             super();
         }    
 
-        public LogInfos build(){
-            return new LogInfos(this);
+        public LogInfo build(){
+            return new LogInfo(this);
         }
     }
     //#endregion
     
     //#region SetterAndGeter
-    public LogInfos(){
+    public LogInfo(){
         super();
     }
     public int getLogId() {
@@ -123,7 +123,7 @@ public class LogInfos {
     //#endregion
 
     public static void main(String[] args) {
-        LogInfos loginf=new LogInfos.LoginfosBuilder(100,"127.0.0.1","11")
+        LogInfo loginf=new LogInfo.LoginfosBuilder(100,"127.0.0.1","11")
         .setExceptionType("info")
         .setExceptionContent("test")
         .build();
