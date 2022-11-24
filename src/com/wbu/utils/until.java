@@ -12,7 +12,6 @@ public class until {
 	public static void Dbfunction(){
 		System.out.println("DBhelp");
 	}
-
 	
 
 }
