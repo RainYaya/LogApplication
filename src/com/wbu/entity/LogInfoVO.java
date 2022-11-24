@@ -10,6 +10,11 @@ public class LogInfoVO implements Serializable {
 
 	private static final long serialVersionUID=1L;
     private LogInfo logInfo;
+    public LogInfoVO(LogInfo logInfo) {
+        super();
+        this.logInfo = logInfo;
+    }
+
     private List<LogInfo> logInfoList;
     private Map<String,String> conditionMap;
     private static Set<String> titleSet=new HashSet();

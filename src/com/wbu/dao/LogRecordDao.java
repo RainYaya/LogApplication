@@ -20,6 +20,35 @@ public class LogRecordDao {
     DBUtil dbUtil=new DBUtil();
     Connection conn=null;
 
+    
+    public LogInfoVO insertLogEntity(LogInfo logInfo){
+
+        int result=-1;
+        LogInfoVO logInfoVO=new LogInfoVO();
+        StringBuilder sqlBuiler=new StringBuilder("insert into record_log")
+                    .append("(ip_addr,")
+                    .append("log_content,")
+                    .append("record_time,")
+                    .append("log_type)")
+                    .append(" values(?,?,?,?); ");
+        
+        conn=dbUtil.getConnection();
+        try {
+            PreparedStatement pstmt=conn.prepareStatement(sqlBuiler.toString());
+            pstmt.setString(1, logInfo.getIpAddr());
+            pstmt.setString(2, logInfo.getExceptionContent());
+            pstmt.setString(3, logInfo.getRecordTime());
+            pstmt.setString(4, logInfo.getExceptionType());
+            result=pstmt.executeUpdate();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }finally{
+            if(result>0){
+                logInfoVO.setLogInfo(logInfo);
+            }
+        }
+        return logInfoVO;
+    }
 
     public LogInfoVO queryLogInfoResultVO(Map<String,String> keyValue){
         LogInfoVO logInfoVO=null;
@@ -35,7 +64,7 @@ public class LogRecordDao {
             Iterator<Entry<String,String>> conditionSetIterator =keyValue.entrySet().iterator();
             while (conditionSetIterator.hasNext()) {      
                 Entry<String,String> entryObj=conditionSetIterator.next();
-                sb.append("and");
+                sb.append(" and ");
                 sb.append(entryObj.getKey());
                 sb.append(" = '");
                 sb.append(entryObj.getValue());
