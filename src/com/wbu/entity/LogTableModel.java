@@ -49,7 +49,11 @@ public class LogTableModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
+<<<<<<< HEAD
         String titleArray[]={"日志编号","异常信息","记录时间","信息类型","登录ip"};
+=======
+        String titleArray[]={"日志编号","信息类型","记录时间","登录ip","异常信息"};        
+>>>>>>> master
         return titleArray[column];
     }
 

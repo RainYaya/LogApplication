@@ -20,6 +20,7 @@ public class LogRecordDao {
     DBUtil dbUtil=new DBUtil();
     Connection conn=null;
 
+<<<<<<< HEAD
     public String getMysqlPaht(){
         String sql="show variables like '%secure%'";
         conn=dbUtil.getConnection();
@@ -125,6 +126,8 @@ public class LogRecordDao {
         }
         return false;
     }
+=======
+>>>>>>> master
     
     public LogInfoVO insertLogEntity(LogInfo logInfo){
 
@@ -147,7 +150,10 @@ public class LogRecordDao {
             result=pstmt.executeUpdate();
         } catch (Exception e) {
             // TODO: handle exception
+<<<<<<< HEAD
             e.printStackTrace();
+=======
+>>>>>>> master
         }finally{
             if(result>0){
                 logInfoVO.setLogInfo(logInfo);

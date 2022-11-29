@@ -13,24 +13,34 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+<<<<<<< HEAD
 import javax.swing.JFileChooser;
+=======
+>>>>>>> master
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
+<<<<<<< HEAD
 import com.wbu.dao.LogRecordDao;
+=======
+>>>>>>> master
 import com.wbu.entity.GeneralEnumObject;
 import com.wbu.entity.LogInfo;
 import com.wbu.entity.LogInfoVO;
 import com.wbu.entity.LogTableModel;
 import com.wbu.server.LogServer;
 import com.wbu.service.LogService;
+<<<<<<< HEAD
 import com.wbu.utils.FileProcessUtil;
 import com.wbu.utils.PropertiesSinletionVialnnerClass;
+=======
+>>>>>>> master
 
 import javax.swing.JRadioButton;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,6 +50,11 @@ import java.util.logging.LogRecord;
 import java.awt.event.ActionEvent;
 
 import javax.print.attribute.standard.Chromaticity;
+=======
+import java.util.HashMap;
+import java.util.Map;
+import java.awt.event.ActionEvent;
+>>>>>>> master
 import javax.swing.ButtonGroup;
 
 public class MainWindow extends JPanel {
@@ -49,7 +64,10 @@ public class MainWindow extends JPanel {
 	private JTextField dateText;
 	JScrollPane scrollPane = new JScrollPane();
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+<<<<<<< HEAD
 	PropertiesSinletionVialnnerClass propinstance=PropertiesSinletionVialnnerClass.getInstance();   
+=======
+>>>>>>> master
 
 	/**
 	 * Create the panel.
@@ -113,7 +131,11 @@ public class MainWindow extends JPanel {
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"ip地址", "录入时间", "异常内容", "异常类型"}));
+<<<<<<< HEAD
 		comboBox.setBounds(161, 17, 87, 23);
+=======
+		comboBox.setBounds(170, 17, 34, 23);
+>>>>>>> master
 		panel_1.add(comboBox);
 		
 		JButton btnNewButton_5 = new JButton("查询");
@@ -135,6 +157,7 @@ public class MainWindow extends JPanel {
 				scrollPane.setViewportView(table);	
 			}
 		});
+<<<<<<< HEAD
 		btnNewButton_5.setBounds(275, 17, 93, 23);
 		panel_1.add(btnNewButton_5);
 		
@@ -192,11 +215,30 @@ public class MainWindow extends JPanel {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(25, 64, 603, 337);
+=======
+		btnNewButton_5.setBounds(219, 17, 93, 23);
+		panel_1.add(btnNewButton_5);
+		
+		JButton btnNewButton_6 = new JButton("导入");
+		btnNewButton_6.setBounds(316, 17, 93, 23);
+		panel_1.add(btnNewButton_6);
+		
+		JButton btnNewButton_7 = new JButton("导出");
+		btnNewButton_7.setBounds(419, 17, 93, 23);
+		panel_1.add(btnNewButton_7);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(25, 64, 487, 257);
+>>>>>>> master
 		panel_1.add(panel_2);
 		panel_2.setLayout(null);
 		
 		
+<<<<<<< HEAD
 		scrollPane.setBounds(17, 5, 576, 322);
+=======
+		scrollPane.setBounds(17, 5, 460, 242);
+>>>>>>> master
 		panel_2.add(scrollPane);
 		
 		table = new JTable();
@@ -243,7 +285,11 @@ public class MainWindow extends JPanel {
 		
 		JComboBox recordTypeCombox = new JComboBox();
 		recordTypeCombox.setModel(new DefaultComboBoxModel(new String[] {"空指针异常", "数据越界异常", "类型不匹配异常", "连接被拒绝异常"}));
+<<<<<<< HEAD
 		recordTypeCombox.setBounds(143, 147, 80, 23);
+=======
+		recordTypeCombox.setBounds(143, 147, 34, 23);
+>>>>>>> master
 		panel_4.add(recordTypeCombox);
 		
 		JLabel lblNewLabel_4 = new JLabel("异常类型");
